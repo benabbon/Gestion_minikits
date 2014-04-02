@@ -7,16 +7,11 @@
 package fablab.connection;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.security.KeyStore;
-import java.security.SecureRandom;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.TrustManagerFactory;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 /**
@@ -25,45 +20,52 @@ import javax.net.ssl.TrustManagerFactory;
  */
 public class Server {
     public static void main(String [] args) {
-        SSLServerSocket serverSock = null;
-        SSLSocket socket = null;
-        BufferedReader in = null;
-        try {
-            //load server private key
-            KeyStore serverKeys = KeyStore.getInstance("JKS");
-            serverKeys.load(new FileInputStream("crt/server.jks"),"fablab".toCharArray());
-            KeyManagerFactory serverKeyManager = KeyManagerFactory.getInstance("SunX509");
-            //System.out.println(KeyManagerFactory.getDefaultAlgorithm());
-            //System.out.println(serverKeyManager.getProvider());
-            serverKeyManager.init(serverKeys,"fablab".toCharArray());
-            //load client public key
-            KeyStore clientPub = KeyStore.getInstance("JKS");
-            clientPub.load(new FileInputStream("crt/clientpub.jks"),"fablab".toCharArray());
-            TrustManagerFactory trustManager = TrustManagerFactory.getInstance("SunX509");
-            trustManager.init(clientPub);
-            //use keys to create SSLSoket
-            SSLContext ssl = SSLContext.getInstance("TLS");
-            ssl.init(serverKeyManager.getKeyManagers(), trustManager.getTrustManagers(), SecureRandom.getInstance("SHA1PRNG"));
-            serverSock = (SSLServerSocket)ssl.getServerSocketFactory().createServerSocket(8889);
-            serverSock.setNeedClientAuth(true);
-            socket = (SSLSocket)serverSock.accept();           
-            //receive data
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String data;
-            while((data = in.readLine())!=null) {
-                System.out.println(data);
-            }
-            
+        ServerSocket welcomeSocket = null;
+        Socket connectionSocket = null;
+        try {                         
+            String clientSentence;
+            welcomeSocket = new ServerSocket(6789);
+            while(true)
+            {
+                connectionSocket = welcomeSocket.accept();
+                BufferedReader inFromClient =
+                        new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+                clientSentence = inFromClient.readLine();
+                System.out.println("Received: " + clientSentence);
+                handle(clientSentence);
+            }            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(in!=null) in.close();
-                if(serverSock!=null) serverSock.close();
-                if(socket!=null) socket.close();
+                if(connectionSocket!=null) connectionSocket.close();
+                // We recall the main in order not to lose the connection
+                main(args);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+    
+    public static void handle(String data) {
+        if (data.startsWith("HB")) {
+            handleHeartBeat(data);
+            return ;
+        }
+        if (data.startsWith("DATA")) {
+            handleData(data);
+            return;
+        }
+        
+    }
+    
+    public static void handleHeartBeat(String data) {
+        System.out.println("Received HeartBeat: " + data);
+    }
+    
+    public static void handleData(String data) {
+        System.out.println("Received Data: " + data);
+    }
+    
+
 }
