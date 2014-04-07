@@ -24,8 +24,10 @@ import org.apache.felix.ipojo.annotations.Requires;
 @Instantiate
 class Capteur extends Thread {
    // private HashMap<Integer,String> cache;
-    @Requires
-    private ServiceBuffer connexion;
+    //@Requires
+    //private ServiceBuffer connexion;
+    
+    private Client connexion;
     
     final private Signal signal = new Signal();
     private String message;
@@ -38,11 +40,11 @@ class Capteur extends Thread {
         connexion.sendData(message);
     }
     
-    /*public Capteur(Client c){
+    public Capteur(Client c){
         connexion = c;
         //cache = new HashMap<Integer, String>();
         
-    }*/
+    }
     
     @Override
     public void run(){

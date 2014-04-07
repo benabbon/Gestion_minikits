@@ -30,9 +30,11 @@ public class MiniKit {
        c = new Client();
        //heartbeat = new HeartBeat(c);
        for ( int i = 0; i < nbCapteur;i++){
-           //capteurs[i] = new Capteur(c);
+           capteurs[i] = new Capteur(c);
            capteurs[i].start();
        }
+       String result = c.sendData("FIRST:"+"my name:2");
+       System.out.println("Result from server, first cnx : "+result);
       //heartbeat.start();   
    } 
    public Capteur getCapteur(int i){

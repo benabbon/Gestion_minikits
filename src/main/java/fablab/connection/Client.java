@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ public class Client {
         Socket clientSocket = null;
         String respond = null;
         try {
-            clientSocket = new Socket("localhost", 6789);
+            clientSocket = new Socket("172.23.7.138", 8080);
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             // If we need to wait for data from the server
             if (data.startsWith("FIRST")) {
