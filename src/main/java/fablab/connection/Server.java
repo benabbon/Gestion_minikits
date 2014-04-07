@@ -54,13 +54,13 @@ public class Server {
     public static String handle(String data) {
         String respond = null;
         if (data.startsWith("HB")) {
-            handleHeartBeat(data);
+            handleHeartBeat(data.substring(3));
         }
         if (data.startsWith("DATA")) {
-            handleData(data);
+            handleData(data.substring(5));
         }
         if (data.startsWith("FIRST")) {
-            respond = handleFirstConnection(data);
+            respond = handleFirstConnection(data.substring(6));
         }
         return respond;
     }
