@@ -32,7 +32,11 @@ public class Server {
                         new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
                 clientSentence = inFromClient.readLine();
                 System.out.println("Received: " + clientSentence);
-                handle(clientSentence);
+                String respond = handle(clientSentence);
+                if (respond != null) {
+                    DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+                    outToClient.writeBytes(respond + '\n');
+                }
             }            
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,16 +51,18 @@ public class Server {
         }
     }
     
-    public static void handle(String data) {
+    public static String handle(String data) {
+        String respond = null;
         if (data.startsWith("HB")) {
             handleHeartBeat(data);
-            return ;
         }
         if (data.startsWith("DATA")) {
             handleData(data);
-            return;
         }
-        
+        if (data.startsWith("FIRST")) {
+            respond = handleFirstConnection(data);
+        }
+        return respond;
     }
     
     public static void handleHeartBeat(String data) {
@@ -65,6 +71,10 @@ public class Server {
     
     public static void handleData(String data) {
         System.out.println("Received Data: " + data);
+    }
+
+    private static String handleFirstConnection(String data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 
