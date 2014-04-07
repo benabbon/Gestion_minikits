@@ -48,6 +48,5 @@
             <artifactId>maven-ipojo-plugin</artifactId>
             <version>1.11.2</version>
         </dependency>
-            
     </dependencies>
 </project>

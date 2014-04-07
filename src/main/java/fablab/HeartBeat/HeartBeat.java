@@ -1,51 +1,36 @@
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+package fablab.HeartBeat;
+import fablab.Services.ServiceConnection;
+import fablab.connection.Client;
+import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.Instantiate;
+import org.apache.felix.ipojo.annotations.Requires;
 
-	
+@Component
+@Instantiate
 public class HeartBeat extends Thread
 {
-
-    public HeartBeat (InetAddress maddr,int port)
-    { 
-        this.maddr= maddr;
-        this.port = port;
-        try {
- 			this.sock = new DatagramSocket();
- 		} catch (SocketException e) {}
-    }
-    
-    private DatagramSocket sock ;
-    private InetAddress maddr;
-    private int port;
-    private DatagramPacket hbMsg ;
+    @Requires
+    private ServiceConnection connexion;
+    /*public HeartBeat(Client c){
+        this.connexion = c;
+    }*/
+ 
     static private long period = 60000;  //heartbeat period in milliseconds
     
     public void run(){
         // setup the hb datagram packet then run forever
         String msg = "1";
-      
-             this.sock.connect(maddr, port);
-         
-        hbMsg = new DatagramPacket(msg.getBytes(),
-                                   msg.length(),
-                                   maddr,
-                                   port);
+     
                                   
                                   
         // continually loop and send this packet each period
         while (true){
-            try{
-                sock.send(hbMsg);
-                sleep(period);
-              }
-            catch (IOException e){System.err.println("Serveur disconnected");
-                                  System.exit(-1);
+          try { 
+               connexion.sendData(msg);
+                sleep(period);  
             }
             catch (InterruptedException e){}
         }
-    }// end run
+    }
     
 }
