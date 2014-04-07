@@ -10,14 +10,13 @@ package fablab.Services;
  *
  * @author cordieth
  */
-public interface Buffer {
+public interface ServiceRemoteShell {
     
     /**
-     * Send the data to the server using the connection.
-     * If not succesfully sent keep the data in memory (in file in version 2? )
-     * until the connection is back.
+     * Launch a shell (not implemented yet).
      * 
-     * @param data 
      */
-    public void sendData(String data);
+    
+    public void startShell();
+    
 }

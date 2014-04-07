@@ -5,18 +5,28 @@
  */
 
 package fablab.MiniKit;
+import fablab.Services.ServiceBuffer;
+import fablab.Services.ServiceConnection;
 import fablab.connection.Client;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.Instantiate;
+import org.apache.felix.ipojo.annotations.Requires;
 
 /**
  *
  * @author toto
  */
+
+@Component
+@Instantiate
 class Capteur extends Thread {
    // private HashMap<Integer,String> cache;
-    private Client connexion;
+    @Requires
+    private ServiceBuffer connexion;
+    
     final private Signal signal = new Signal();
     private String message;
     
@@ -24,14 +34,16 @@ class Capteur extends Thread {
         return signal;
     }
     private void sendMessage(){
-        System.out.println(message);
-        //connexion.sendData(message);
+        //System.out.println(message);
+        connexion.sendData(message);
     }
-    public Capteur(Client c){
+    
+    /*public Capteur(Client c){
         connexion = c;
         //cache = new HashMap<Integer, String>();
         
-    }
+    }*/
+    
     @Override
     public void run(){
        while(true){

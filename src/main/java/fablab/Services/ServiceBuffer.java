@@ -10,15 +10,14 @@ package fablab.Services;
  *
  * @author cordieth
  */
-public interface Connection {
+public interface ServiceBuffer {
     
     /**
-     * Send data to server using the connection.
-     * If not succesfully sent, return false.
+     * Send the data to the server using the connection.
+     * If not succesfully sent keep the data in memory (in file in version 2? )
+     * until the connection is back.
      * 
-     * @param data msg sent
-     * @return Indicate if the message was succesfully sent
+     * @param data 
      */
-    
-    public boolean sendData(String data);
+    public void sendData(String data);
 }

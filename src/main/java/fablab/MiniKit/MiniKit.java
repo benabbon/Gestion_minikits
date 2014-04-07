@@ -28,9 +28,9 @@ public class MiniKit {
        this.firstConnexion = true;
        this.capteurs = new Capteur[nbCapteur];
        c = new Client();
-       heartbeat = new HeartBeat(c);
+       //heartbeat = new HeartBeat(c);
        for ( int i = 0; i < nbCapteur;i++){
-           capteurs[i] = new Capteur(c);
+           //capteurs[i] = new Capteur(c);
            capteurs[i].start();
        }
       //heartbeat.start();   

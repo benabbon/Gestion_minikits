@@ -5,7 +5,7 @@
  */
 
 package fablab.connection;
-import fablab.Services.Connection;
+import fablab.Services.ServiceConnection;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Instantiate;
@@ -18,7 +18,7 @@ import org.apache.felix.ipojo.annotations.Instantiate;
 @Component
 @Provides
 @Instantiate
-public class FakeClient implements Connection {
+public class FakeClient implements ServiceConnection {
 
     public boolean sendData(String data) {
         System.out.println(data);

@@ -10,13 +10,16 @@ package fablab.Services;
  *
  * @author cordieth
  */
-public interface RemoteShell {
+public interface ServiceConnection {
+    
     
     /**
-     * Launch a shell (not implemented yet).
+     * Send data to server using the connection.
+     * If not succesfully sent, return false.
      * 
+     * @param data msg sent
+     * @return Indicate if the message was succesfully sent
      */
     
-    public void startShell();
-    
+    public boolean sendData(String data);
 }
