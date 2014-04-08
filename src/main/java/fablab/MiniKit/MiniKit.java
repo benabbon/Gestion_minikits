@@ -33,7 +33,7 @@ public class MiniKit {
            capteurs[i] = new Capteur(c);
            capteurs[i].start();
        }
-       String result = c.sendData("FIRST:"+"my name:2");
+       String result = c.sendData("FIRST:my name:2");
        System.out.println("Result from server, first cnx : "+result);
       //heartbeat.start();   
    } 

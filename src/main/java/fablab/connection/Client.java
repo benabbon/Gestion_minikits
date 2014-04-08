@@ -21,33 +21,34 @@ import java.util.logging.Logger;
  */
 public class Client {
 //  
-//    public static void main(String [] args) {
-//        try {
-//            String sentence;
-//            BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
-//            while (true) {
-//                sentence = inFromUser.readLine();
-//                sendData(sentence);
-//            }
-//            
-//        } catch (IOException ex) {
-//            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    public static void main(String [] args) {
+        try {
+            String sentence;
+            BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
+            while (true) {
+                System.out.println("Waiting to send ...");
+                sentence = inFromUser.readLine();
+                sendData(sentence);
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
-    public synchronized String sendData(String data) {
+    public static synchronized String sendData(String data) {
         Socket clientSocket = null;
         String respond = null;
         try {
-            clientSocket = new Socket("172.23.7.138", 8080);
+            clientSocket = new Socket("195.221.228.9", 1705);
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             // If we need to wait for data from the server
+            outToServer.writeBytes(data + '\n');
             if (data.startsWith("FIRST")) {
                 BufferedReader inFromServer =
                         new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 respond = inFromServer.readLine();
             }
-            outToServer.writeBytes(data + '\n');
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
