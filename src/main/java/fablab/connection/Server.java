@@ -24,7 +24,7 @@ public class Server {
         Socket connectionSocket = null;
         try {                         
             String clientSentence;
-            welcomeSocket = new ServerSocket(6789);
+            welcomeSocket = new ServerSocket(1705);
             while(true)
             {
                 connectionSocket = welcomeSocket.accept();
@@ -44,7 +44,7 @@ public class Server {
             try {
                 if(connectionSocket!=null) connectionSocket.close();
                 // We recall the main in order not to lose the connection
-                main(args);
+                //main(args);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -53,7 +53,8 @@ public class Server {
     
     public static String handle(String data) {
         String respond = null;
-        if (data.startsWith("HB")) {
+        if (data != null) {
+		if (data.startsWith	("HB")) {
             handleHeartBeat(data.substring(3));
         }
         if (data.startsWith("DATA")) {
@@ -62,6 +63,7 @@ public class Server {
         if (data.startsWith("FIRST")) {
             respond = handleFirstConnection(data.substring(6));
         }
+		}
         return respond;
     }
     
@@ -74,7 +76,14 @@ public class Server {
     }
 
     private static String handleFirstConnection(String data) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] param = data.split(":");
+		if(param.length >= 2){
+			String client = param[0];
+			int nbCapteur = new Integer(param[1]);
+			int id = ServeurDB.premiereCnx(client,nbCapteur);
+			return id+"";
+		}
+		return null;
     }
     
 

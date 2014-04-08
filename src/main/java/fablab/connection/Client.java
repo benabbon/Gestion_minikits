@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author nabilbenabbou1
  */
 public class Client {
-//  
+    
     public static void main(String [] args) {
         try {
             String sentence;
@@ -34,7 +34,7 @@ public class Client {
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        }
     
     public static synchronized String sendData(String data) {
         Socket clientSocket = null;
