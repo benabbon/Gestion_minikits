@@ -45,7 +45,7 @@ public class Client_ssl {
             //use keys to create SSLSoket
             SSLContext ssl = SSLContext.getInstance("TLS");
             ssl.init(clientKeyManager.getKeyManagers(), trustManager.getTrustManagers(), SecureRandom.getInstance("SHA1PRNG"));
-            socket = (SSLSocket)ssl.getSocketFactory().createSocket("192.168.1.73", 8889);
+            socket = (SSLSocket)ssl.getSocketFactory().createSocket("195.221.228.9", 1705);
             socket.startHandshake();
             //send data
             InputStream inputstream = System.in;
