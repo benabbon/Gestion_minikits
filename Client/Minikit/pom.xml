@@ -35,7 +35,7 @@
     
     <modules>
         <module>connection.service</module>
-    <module>mavenproject2</module>
+    <module>client.heartbeat</module>
   </modules>
     
     
