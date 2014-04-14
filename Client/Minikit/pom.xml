@@ -36,6 +36,7 @@
     <modules>
         <module>connection.service</module>
     <module>client.heartbeat</module>
+    <module>connection.fake.impl</module>
   </modules>
     
     
