@@ -35,9 +35,8 @@
     
     <modules>
         <module>connection.service</module>
-        <module>connection.fake.impl</module>
-        <module>mavenproject1</module>
-    </modules>
+    <module>mavenproject2</module>
+  </modules>
     
     
     <build>
