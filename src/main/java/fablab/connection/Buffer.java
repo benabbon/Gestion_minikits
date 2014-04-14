@@ -17,7 +17,7 @@ import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
 
 /**
- * A buffer with no memory is a fake buffer.
+ * working buffer.
  * 
  * @author cordieth
  */

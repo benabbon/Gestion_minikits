@@ -44,7 +44,7 @@ public class Server_ssl {
             //use keys to create SSLSoket
             SSLContext ssl = SSLContext.getInstance("TLS");
             ssl.init(serverKeyManager.getKeyManagers(), trustManager.getTrustManagers(), SecureRandom.getInstance("SHA1PRNG"));
-            serverSock = (SSLServerSocket)ssl.getServerSocketFactory().createServerSocket(8889);
+            serverSock = (SSLServerSocket)ssl.getServerSocketFactory().createServerSocket(1705);
             serverSock.setNeedClientAuth(true);
             socket = (SSLSocket)serverSock.accept();           
             //receive data
