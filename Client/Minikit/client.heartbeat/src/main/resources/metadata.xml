@@ -4,12 +4,12 @@
     xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/CURRENT/core.xsd" 
     xmlns="org.apache.felix.ipojo">
 
-  <component classname="fablab.client.heartbeat.Heartbeat">
+  <component classname="fablab.client.heartbeat.HeartBeat">
     <requires field="connexion" />
     <callback transition="validate" method="starting" />
     <callback transition="invalidate" method="stopping" />
   </component>
 
-  <instance component="fablab.client.hearbeat.Heartbeat">
+  <instance component="fablab.client.heartbeat.HeartBeat">
   </instance>
 </ipojo>

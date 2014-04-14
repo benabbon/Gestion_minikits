@@ -1,8 +1,9 @@
 package fablab.client.heartbeat;
 import fablab.connection.service.Connection;
 
-public class HeartBeat extends Thread
+public class HeartBeat implements Runnable
 {
+    private boolean m_end;
     private Connection connexion;
     /*public HeartBeat(Client c){
         this.connexion = c;
@@ -17,13 +18,28 @@ public class HeartBeat extends Thread
                                   
                                   
         // continually loop and send this packet each period
-        while (true){
+        while (!m_end){
           try { 
                connexion.sendData(msg);
-                sleep(period);  
+                Thread.sleep(period);  
             }
             catch (InterruptedException e){}
         }
+    }
+     /**
+     * Starting.
+     */
+    public void starting() {
+        Thread thread = new Thread(this);
+        m_end = false;
+        thread.start();
+    }
+
+    /**
+     * Stopping.
+     */
+    public void stopping() {
+        m_end = true;
     }
     
 }

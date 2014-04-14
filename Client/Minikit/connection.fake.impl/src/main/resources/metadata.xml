@@ -10,10 +10,10 @@ and open the template in the editor.
     xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/CURRENT/core.xsd" 
     xmlns="org.apache.felix.ipojo">
 
-  <component classname="fablab.connection.fake.FakeConnection"
+  <component classname="fablab.connection.fake.impl.FakeConnection"
     name="FakeConnectionProvider">
     <provides />
   </component>
 
-  <instance component="HelloProvider" name="HelloService" />
+  <instance component="FakeConnectionProvider" name="FakeConnectionService" />
 </ipojo>
