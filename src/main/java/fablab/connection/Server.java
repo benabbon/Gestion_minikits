@@ -24,7 +24,7 @@ public class Server {
         Socket connectionSocket = null;
         try {                         
             String clientSentence;
-            welcomeSocket = new ServerSocket(8080);
+            welcomeSocket = new ServerSocket(1705);
             while(true)
             {
                 connectionSocket = welcomeSocket.accept();
