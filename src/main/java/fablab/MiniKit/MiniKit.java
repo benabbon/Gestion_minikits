@@ -28,14 +28,16 @@ public class MiniKit {
        this.firstConnexion = true;
        this.capteurs = new Capteur[nbCapteur];
        c = new Client();
-       //heartbeat = new HeartBeat(c);
-       for ( int i = 0; i < nbCapteur;i++){
-           capteurs[i] = new Capteur(c);
+       
+       String result = c.sendData("FIRST:"+"test:1");
+	   heartbeat = new HeartBeat(c,Integer.parseInt(result));
+       System.out.println("Result from server, first cnx : "+result);
+	   for ( int i = 0; i < nbCapteur;i++){
+           capteurs[i] = new Capteur(c,i+1,Integer.parseInt(result));
            capteurs[i].start();
        }
-       String result = c.sendData("FIRST:"+"seancefablab:2");
-       System.out.println("Result from server, first cnx : "+result);
-      //heartbeat.start();   
+       
+      heartbeat.start();   
    } 
    public Capteur getCapteur(int i){
        return capteurs[i];

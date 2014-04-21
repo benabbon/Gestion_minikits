@@ -10,16 +10,18 @@ import org.apache.felix.ipojo.annotations.Requires;
 public class HeartBeat extends Thread
 {
     @Requires
-    private ServiceConnection connexion;
-    /*public HeartBeat(Client c){
+    private Client connexion;
+	private int idMiniKit;
+    public HeartBeat(Client c,int idMiniKit){
         this.connexion = c;
-    }*/
+		this.idMiniKit=idMiniKit;
+    }
  
-    static private long period = 60000;  //heartbeat period in milliseconds
+    static private long period = 10000;  //heartbeat period in milliseconds
     
     public void run(){
         // setup the hb datagram packet then run forever
-        String msg = "1";
+        String msg = "HB:"+idMiniKit;
      
                                   
                                   
