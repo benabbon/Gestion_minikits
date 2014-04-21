@@ -8,6 +8,7 @@ package fablab.MiniKit;
 import fablab.Services.ServiceBuffer;
 import fablab.Services.ServiceConnection;
 import fablab.connection.Client;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,17 +32,22 @@ class Capteur extends Thread {
     
     final private Signal signal = new Signal();
     private String message;
+	private int idCapteur;
+	private int idMiniKit;
     
     public Signal getSignal(){
         return signal;
     }
     private void sendMessage(){
         //System.out.println(message);
-        connexion.sendData(message);
+		Date dateDonnee = new Date();
+        connexion.sendData("DATA:"+idMiniKit+":"+idCapteur+":"+message+":"+dateDonnee.getTime());
     }
     
-    public Capteur(Client c){
+    public Capteur(Client c, int id, int miniKit){
         connexion = c;
+		this.idCapteur=id;
+		this.idMiniKit=miniKit;
         //cache = new HashMap<Integer, String>();
         
     }

@@ -113,7 +113,7 @@ public class ServeurDB {
 		}
 	}
 	
-	public static boolean donnee(int idMiniKit, int idCapteur, int donnee){
+	public static boolean donnee(int idMiniKit, int idCapteur, int donnee, long dateDonnee){
 		Date date = new Date();
 		long time = 0;
 		long a = (long)Math.pow(10,10)*(date.getYear()+1900);
@@ -135,12 +135,15 @@ public class ServeurDB {
 			boolean valide = false;
 			valide = (res.getString(3)== null || donnee >= res.getInt(3)) &&(res.getString(4)==null || donnee <= res.getInt(4));
 			st.executeUpdate("update mini_kit set date_derniere_connexion = "+ time +" where id_mk = "+idMiniKit);
-			st.executeUpdate("insert into donnees values ("+idMiniKit+" , "+ idCapteur+" , "+ time+" , "+donnee+" , "+valide+" )");
+			PreparedStatement s = con.prepareStatement("insert into donnees values ("+idMiniKit+" , "+ idCapteur+" , "+ dateDonnee +" , "+donnee+" ,?)");
+			s.setBoolean(1, valide);
+			s.executeUpdate();
 			con.close();
 			return true;
 		} catch (ClassNotFoundException ex) {
 			return false;
 		} catch (SQLException ex) {
+			System.out.println("erreur sql f donnee");
 			return false;
 		}
 		
@@ -150,17 +153,6 @@ public class ServeurDB {
 		//setValidite(5,2,null,8);
 		//HB(5);
 		//System.out.println(" haaaaaaa"+donnee(5,2,10));;
-		premiereCnx("mouad", 3);
-		premiereCnx("nabil",4);
-		premiereCnx("othmane",5);
-		for (int i = 1; i <= 3; i++)
-			for (int j= 0; j< 10 ; j++)
-				donnee(1,i,5);
-		for (int i = 1; i <= 4; i++)
-			for (int j= 0; j< 10 ; j++)
-				donnee(2,i,5);
-		for (int i = 1; i <= 5; i++)
-			for (int j= 0; j< 10 ; j++)
-				donnee(3,i,5);
+		
 	}
 }

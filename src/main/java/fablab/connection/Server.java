@@ -68,11 +68,23 @@ public class Server {
     }
     
     public static void handleHeartBeat(String data) {
-        System.out.println("Received HeartBeat: " + data);
+		System.out.println("hb received");
+		int id = Integer.parseInt(data);
+		ServeurDB.HB(id);
     }
     
     public static void handleData(String data) {
-        System.out.println("Received Data: " + data);
+        System.out.println("data received");
+		String[] param = data.split(":");
+		if(param.length >= 4){
+			System.out.println("ana f la boucle");
+			int idMiniKit = Integer.parseInt(param[0]);
+			int idCapteur = Integer.parseInt(param[1]);
+			int donnee  = Integer.parseInt(param[2]);
+			long dateDonnee = Long.parseLong(param[3]);
+			ServeurDB.donnee(idMiniKit,idCapteur,donnee, dateDonnee);
+			
+		}
     }
 
     private static String handleFirstConnection(String data) {

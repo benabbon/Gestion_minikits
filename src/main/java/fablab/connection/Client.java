@@ -40,7 +40,7 @@ public class Client {
         Socket clientSocket = null;
         String respond = null;
         try {
-            clientSocket = new Socket("195.221.228.9", 1705);
+            clientSocket = new Socket("localhost", 1705);
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
             // If we need to wait for data from the server
             outToServer.writeBytes(data + '\n');

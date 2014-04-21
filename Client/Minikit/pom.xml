@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fablab</groupId>
+    <artifactId>Minikit</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo.distribution.quickstart</artifactId>
+            <version>1.11.2</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo</artifactId>
+            <version>1.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo.gogo</artifactId>
+            <version>1.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo.annotations</artifactId>
+            <version>1.11.2</version>
+        </dependency>
+    </dependencies>
+    
+    <modules>
+        <module>connection.service</module>
+    <module>client.heartbeat</module>
+    <module>connection.fake.impl</module>
+  </modules>
+    
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-ipojo-plugin</artifactId>
+                    <version>1.11.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
