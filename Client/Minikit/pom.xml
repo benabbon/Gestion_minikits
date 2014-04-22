@@ -1,5 +1,5 @@
-
-    <project> 
+<?xml version="1.0" encoding="UTF-8"?>
+<project> 
     <modelVersion>4.0.0</modelVersion>
     <groupId>fablab</groupId>
     <artifactId>Minikit</artifactId>
@@ -10,6 +10,7 @@
         <module>connection.service</module>
     <module>client.heartbeat</module>
     <module>connection.fake.impl</module>
+    <module>mavenproject2</module>
   </modules>
    
 </project>
