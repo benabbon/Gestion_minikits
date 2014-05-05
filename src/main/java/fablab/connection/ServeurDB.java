@@ -48,7 +48,7 @@ public class ServeurDB {
 			if (id == 0)
 				return 0;
 			for (int i = 1; i <= nbCapteur; i++){
-				st.executeUpdate("insert into validite values ("+id+", "+i+", null, null)");
+				st.executeUpdate("insert into validite values ("+id+", "+i+", null, null,0)");
 			}
 			con.close();
 			return id;
