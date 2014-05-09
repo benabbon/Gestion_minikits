@@ -11,6 +11,7 @@
     <module>client.heartbeat</module>
     <module>connection.fake.impl</module>
     <module>mavenproject2</module>
-  </modules>
+        <module>config.service</module>
+    </modules>
    
 </project>

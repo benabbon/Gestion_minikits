@@ -9,7 +9,7 @@ public class HeartBeat implements Runnable
         this.connexion = c;
     }*/
  
-    static private long period = 60000;  //heartbeat period in milliseconds
+    static private long period = 6000;  //heartbeat period in milliseconds
     
     public void run(){
         // setup the hb datagram packet then run forever
