@@ -10,9 +10,10 @@ and open the template in the editor.
     xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/CURRENT/core.xsd" 
     xmlns="org.apache.felix.ipojo">
 
-  <component classname="fablab.config.impl.ConfigImpl.java"
+  <component classname="fablab.config.impl.ConfigImpl"
     name="ConfigProvider">
     <provides />
+    <callback transition="validate" method="starting" />
   </component>
 
   <instance component="ConfigProvider" name="Config" />

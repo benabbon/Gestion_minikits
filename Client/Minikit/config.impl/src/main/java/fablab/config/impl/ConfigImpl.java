@@ -16,10 +16,8 @@ import java.util.Scanner;
  * @author darrazo
  */
 import fablab.config.service.Config;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,18 +60,14 @@ public class ConfigImpl implements Config{
     
     public void starting(){
         try {
-            configFilePath = Paths.get("/confMinikit.txt");
-
+            configFilePath = Paths.get("confMinikit.txt");
             capteurs = new TreeMap<Integer, String>();
             processLineByLine();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-       public static void main(String [] args){
-           ConfigImpl c = new ConfigImpl();
-           c.starting();
-       }
+    
     
     
     /** 
@@ -112,7 +106,7 @@ public class ConfigImpl implements Config{
         if ( "IDMINIKIT".equals(name))
              idMinikit = Integer.parseInt(value);  
         else if ( "NBCAPTOR".equals(name))
-             idMinikit = Integer.parseInt(value);  
+             nbCapteurs = Integer.parseInt(value);  
         else if ("IPSERVER".equals(name))
             ipServer = value;
         else if("LASTNAME".equals(name))

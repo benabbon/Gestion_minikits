@@ -12,6 +12,7 @@ and open the template in the editor.
 
   <component classname="fablab.connection.fake.impl.FakeConnection"
     name="FakeConnectionProvider">
+    <requires field="conf" />
     <provides />
   </component>
 

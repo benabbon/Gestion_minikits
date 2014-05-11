@@ -18,7 +18,8 @@ public class FakeConnection implements Connection {
 
      Config conf;
     public boolean sendData(String data) {
-        System.out.println(data + conf.getIPServer());
+       // System.out.println("config"+ conf.getIdMinikit());
+        System.out.println(data);
         return true;
     }
     

@@ -1,3 +1,5 @@
 start file:../connection.service/target/connection.service-1.0.0.jar
 start file:../connection.fake.impl/target/connection.fake.impl-1.0.0.jar
 start file:../client.heartbeat/target/client.heartbeat-1.0.0.jar
+start file:../config.service/target/config.service-1.0.0.jar
+start file:../config.impl/target/config.impl-1.0.0.jar

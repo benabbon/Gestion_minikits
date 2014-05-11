@@ -49,8 +49,9 @@ public interface Config {
     public int getNbCapteurs();
     /**
      *  get functionality of a capto ( one word of what the captors does)
-     * @param captor number
+     * @param numeroCapteur captor number 
      * @return Captor functionality
      */
     public String getFoncCapteur(int numeroCapteur);
+
 }

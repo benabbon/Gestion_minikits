@@ -11,7 +11,7 @@
     <module>client.heartbeat</module>
     <module>connection.fake.impl</module>
         <module>config.service</module>
-    <module>config.imple</module>
+    <module>config.impl</module>
   </modules>
    
 </project>
