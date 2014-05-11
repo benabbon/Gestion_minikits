@@ -10,8 +10,8 @@
         <module>connection.service</module>
     <module>client.heartbeat</module>
     <module>connection.fake.impl</module>
-    <module>mavenproject2</module>
         <module>config.service</module>
-    </modules>
+    <module>config.imple</module>
+  </modules>
    
 </project>

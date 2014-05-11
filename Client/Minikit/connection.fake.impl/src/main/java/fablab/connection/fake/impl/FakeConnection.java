@@ -12,11 +12,13 @@ package fablab.connection.fake.impl;
  */
 
 import fablab.connection.service.Connection;
+import fablab.config.service.Config;
 
 public class FakeConnection implements Connection {
 
+     Config conf;
     public boolean sendData(String data) {
-        System.out.println(data);
+        System.out.println(data + conf.getIPServer());
         return true;
     }
     
