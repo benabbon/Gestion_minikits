@@ -3,6 +3,7 @@
     <version>1.0.0</version>
     <groupId>fablab</groupId>
     <artifactId>config.impl</artifactId>
+    <name>Config Impl</name>
     <packaging>bundle</packaging>  
     <dependencies>
         <dependency>

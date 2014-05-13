@@ -4,33 +4,28 @@
  * and open the template in the editor.
  */
 
-package fablab.connection;
-
-import fablab.Services.ServiceBuffer;
-import fablab.Services.ServiceConnection;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import org.apache.felix.ipojo.annotations.Component;
-import org.apache.felix.ipojo.annotations.Instantiate;
-import org.apache.felix.ipojo.annotations.Provides;
-import org.apache.felix.ipojo.annotations.Requires;
+package fablab.buffer.impl;
 
 /**
- * working buffer.
- * 
+ *
  * @author cordieth
  */
 
-@Component
-@Provides
-@Instantiate
-public class Buffer implements ServiceBuffer{
+import fablab.connection.service.Connection;
+import fablab.buffer.service.BufferService;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
+public class Buffer implements BufferService {
     
-    @Requires
-    private ServiceConnection connection;
+    private Connection connection;
     private LinkedList<String> list;
-    private ListIterator<String> it;
+    
+    /**
+     * Send data to server or store it if there is connection problems.
+     * 
+     * @param data msg sent
+     */
 
     public void sendData(String data) {
         if (connection.sendData(data)) {
@@ -40,6 +35,7 @@ public class Buffer implements ServiceBuffer{
             list.add(data);
         }
     }
+    
     
     public boolean isEmpty() {
         return list.isEmpty();
@@ -59,4 +55,5 @@ public class Buffer implements ServiceBuffer{
             }
         }
     }
+    
 }

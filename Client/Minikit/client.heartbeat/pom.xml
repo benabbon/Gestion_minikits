@@ -1,21 +1,20 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-      <packaging>bundle</packaging>
-    
+  <packaging>bundle</packaging>
   <groupId>fablab</groupId>
   <artifactId>client.heartbeat</artifactId>
-    <version>1.0.0</version>
-    
-    <dependencies>
-        <dependency>
-            <groupId>fablab</groupId>
-            <artifactId>connection.service</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
+  <version>1.0.0</version>
+  <name>Heart Beat</name>  
+  <dependencies>
+      <dependency>
+          <groupId>fablab</groupId>
+          <artifactId>connection.service</artifactId>
+          <version>1.0.0</version>
+      </dependency>
+  </dependencies>
 
   
-       <build>
+  <build>
     <plugins>
       <plugin>
         <groupId>org.apache.felix</groupId>

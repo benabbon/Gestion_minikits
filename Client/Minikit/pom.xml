@@ -7,11 +7,15 @@
     <packaging>pom</packaging>
    
     <modules>
-        <module>connection.service</module>
+    <module>connection.service</module>
     <module>client.heartbeat</module>
     <module>connection.fake.impl</module>
-        <module>config.service</module>
+    <module>config.service</module>
     <module>config.impl</module>
+    <module>buffer.service</module>
+    <module>buffer.impl</module>
+    <module>capteur.service</module>
+    <module>capteur.multi</module>
   </modules>
    
 </project>

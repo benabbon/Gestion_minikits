@@ -15,12 +15,34 @@ import fablab.connection.service.Connection;
 import fablab.config.service.Config;
 
 public class FakeConnection implements Connection {
-
-     Config conf;
+    
+    boolean activated;
+    GUI gui;
+    Config conf;
     public boolean sendData(String data) {
        // System.out.println("config"+ conf.getIdMinikit());
-        System.out.println(data);
-        return true;
+        if (activated) {
+            System.out.println(data);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
+    public void change() {
+        activated=!activated;
+    }
+    
+    public void starting() {
+        gui = new GUI(this);
+        activated=true;
+    }
+
+    /**
+     * Stopping.
+     */
+    public void stopping() {
+        gui.dispose();
+    }
 }
