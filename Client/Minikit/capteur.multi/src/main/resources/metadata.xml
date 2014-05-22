@@ -9,6 +9,6 @@
     <callback transition="invalidate" method="stopping" />
   </component>
 
-  <instance component="fablab.client.heartbeat.HeartBeat">
+  <instance component="fablab.capteur.multi.MultiSim">
   </instance>
 </ipojo>

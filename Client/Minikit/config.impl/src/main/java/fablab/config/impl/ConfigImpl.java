@@ -1,7 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package fablab.config.impl;
 
 
@@ -55,7 +55,7 @@ public class ConfigImpl implements Config{
     public String getFoncCapteur(int numeroCapteur){
         return capteurs.get(numeroCapteur);
     }
-         
+    
     
     
     public void starting(){
@@ -70,9 +70,9 @@ public class ConfigImpl implements Config{
     
     
     
-    /** 
+    /**
      * processing line by line config file
-     * @throws Exception 
+     * @throws Exception
      */
     private void processLineByLine() throws Exception {
         Scanner scanner =  new Scanner(configFilePath, ENCODING.name());
@@ -95,7 +95,7 @@ public class ConfigImpl implements Config{
             String name = scanner.next();
             String value = scanner.next();
             defAttribut(name, value);
-           
+            
         }
         else {
             throw new Exception("problème Parsing format non respecté");
@@ -104,9 +104,9 @@ public class ConfigImpl implements Config{
     
     private void defAttribut(String name,String value){
         if ( "IDMINIKIT".equals(name))
-             idMinikit = Integer.parseInt(value);  
+            idMinikit = Integer.parseInt(value);
         else if ( "NBCAPTOR".equals(name))
-             nbCapteurs = Integer.parseInt(value);  
+            nbCapteurs = Integer.parseInt(value);
         else if ("IPSERVER".equals(name))
             ipServer = value;
         else if("LASTNAME".equals(name))
@@ -115,7 +115,7 @@ public class ConfigImpl implements Config{
             prenomParticulier = value;
         else if(name.startsWith("CAPTOR"))
             capteurs.put(Integer.parseInt(name.split("TOR")[1]), value);
-            
+        
         
     }
     
@@ -134,7 +134,7 @@ public class ConfigImpl implements Config{
         for (String func: capteurs.values()){
             pw.println("CAPTOR"+ i +":" + func);
             i++;
-        }     
+        }
         pw.flush();
         pw.close();
         
@@ -149,8 +149,34 @@ public class ConfigImpl implements Config{
             System.out.println("Could not rename file");
         
     }
-
-   
-
-
+    
+    
+    // Setters
+    public void setIPServer(String ipServer) {
+        this.ipServer = ipServer;
+    }
+    
+    public void setNomParticulier(String nom) {
+        this.nomParticulier = nom;
+    }
+    
+    public void setPrenomParticulier(String prenom) {
+        this.prenomParticulier = prenom;
+    }
+    
+    public void setIdMinikit(int id) {
+        this.idMinikit = id;
+    }
+    
+    public void setNbCapteurs(int nbcapteurs) {
+        this.nbCapteurs = nbcapteurs;
+    }
+    
+    public void setFoncCapteur(int numeroCapteur, String func) {
+        this.capteurs.replace(numeroCapteur, func);
+    }
+    
+    
+    
+    
 }

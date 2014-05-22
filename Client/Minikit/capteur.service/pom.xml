@@ -20,6 +20,9 @@
             <Export-Package>
               fablab.capteur.service
             </Export-Package>
+              <Import-Package>
+                javax.swing
+            </Import-Package>
           </instructions>
         </configuration>
       </plugin>

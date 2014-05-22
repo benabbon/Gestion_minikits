@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 
 public class Buffer implements BufferService {
     
-    private Connection connection;
+    private Connection connexion;
     private LinkedList<String> list;
     
     /**
@@ -28,7 +28,7 @@ public class Buffer implements BufferService {
      */
 
     public void sendData(String data) {
-        if (connection.sendData(data)) {
+        if (connexion.sendData(data)) {
             emptyList();
         }
         else {
@@ -47,7 +47,7 @@ public class Buffer implements BufferService {
         while (workingConnection) {
             try {
                 data=list.remove();
-                if (!connection.sendData(data)) { // !!effet de bord!!
+                if (!connexion.sendData(data)) { // !!effet de bord!!
                     list.add(data);
                     workingConnection=false;
                 }

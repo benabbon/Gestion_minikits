@@ -22,6 +22,13 @@ public interface Config {
      */
     public String getIPServer();
     
+   /**
+    *  set server's IP
+    * @param ipServer 
+    */
+    
+    public void setIPServer(String ipServer);
+    
     /**
      *  Get the lastname of the Minikit user
      * @return Lastname
@@ -29,6 +36,7 @@ public interface Config {
     
     public String getNomParticulier();
     
+    public void setNomParticulier(String nom);
     
     /**
      *  Get the first name of the minikit user
@@ -36,22 +44,29 @@ public interface Config {
      */
     public String getPrenomParticulier();
     
+    public void setPrenomParticulier(String prenom);
     /**
      * Get the id of the Minikit if already defined -1 else.
      * @return idMinikit if defined
      */
     public int getIdMinikit();
     
+    public void setIdMinikit(int id);
+    
     /**
      *  Get the number of Captors
      * @return number of Captors
      */
     public int getNbCapteurs();
+    
+    public void setNbCapteurs(int nbcapteurs);
     /**
      *  get functionality of a capto ( one word of what the captors does)
      * @param numeroCapteur captor number 
      * @return Captor functionality
      */
     public String getFoncCapteur(int numeroCapteur);
+    
+    public void setFoncCapteur(int numeroCapteur,String func);
 
 }

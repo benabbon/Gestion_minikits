@@ -8,6 +8,6 @@
     <requires field="connexion" />
   </component>
 
-  <instance component="fablab.client.heartbeat.HeartBeat">
+  <instance component="fablab.buffer.impl.Buffer">
   </instance>
 </ipojo>

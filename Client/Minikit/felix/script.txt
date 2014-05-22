@@ -3,3 +3,9 @@ start file:../connection.fake.impl/target/connection.fake.impl-1.0.0.jar
 start file:../client.heartbeat/target/client.heartbeat-1.0.0.jar
 start file:../config.service/target/config.service-1.0.0.jar
 start file:../config.impl/target/config.impl-1.0.0.jar
+start file:../capteur.service/target/capteur.service-1.0.0.jar
+start file:../capteur.gestionnaire/target/capteur.gestionnaire-1.0.0.jar
+start file:../capteur.multi/target/capteur.multi-1.0.0.jar
+start file:../buffer.service/target/buffer.service-1.0.0.jar
+start file:../buffer.impl/target/buffer.impl-1.0.0.jar
+

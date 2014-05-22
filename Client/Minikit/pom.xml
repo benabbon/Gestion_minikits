@@ -16,6 +16,7 @@
     <module>buffer.impl</module>
     <module>capteur.service</module>
     <module>capteur.multi</module>
-  </modules>
+    <module>capteur.gestionnaire</module>
+    </modules>
    
 </project>
