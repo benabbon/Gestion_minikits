@@ -29,9 +29,11 @@ public class MiniKit {
        this.capteurs = new Capteur[nbCapteur];
        c = new Client();
        
-       String result = c.sendData("FIRST:"+"test:1");
-	   heartbeat = new HeartBeat(c,Integer.parseInt(result));
+       String result = c.sendData("FIRST:"+"mardi:1");
+	   idMinikit=Integer.parseInt(result);
+	   heartbeat = new HeartBeat(c,idMinikit);
        System.out.println("Result from server, first cnx : "+result);
+	   c.sendData("VALIDITE:"+idMinikit+":1:0:50");
 	   for ( int i = 0; i < nbCapteur;i++){
            capteurs[i] = new Capteur(c,i+1,Integer.parseInt(result));
            capteurs[i].start();
