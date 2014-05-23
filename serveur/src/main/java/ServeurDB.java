@@ -4,6 +4,7 @@ import java.util.Date;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -46,7 +47,7 @@ public class ServeurDB {
 			if (id == 0)
 				return 0;
 			for (int i = 1; i <= nbCapteur; i++){
-				st.executeUpdate("insert into validite values ("+id+", "+i+", null, null,0)");
+				st.executeUpdate("insert into validite values ("+id+", "+i+", null, null,0,"+date.getTime()+")");
 			}
 			con.close();
 			return id;
@@ -55,7 +56,6 @@ public class ServeurDB {
 		} catch (SQLException ex) {
 			return 0;
 		}
-		
 	}
 	
 	public static boolean setValidite(int idMiniKit, int idCapteur, Integer min, Integer max){
@@ -79,6 +79,7 @@ public class ServeurDB {
 		} catch (SQLException ex) {
 			return false;
 		}
+		
 		
 	}
 	
@@ -136,15 +137,71 @@ public class ServeurDB {
 			PreparedStatement s = con.prepareStatement("insert into donnees values ("+idMiniKit+" , "+ idCapteur+" , "+ dateDonnee +" , "+donnee+" ,?)");
 			s.setBoolean(1, valide);
 			s.executeUpdate();
+			PreparedStatement ss = con.prepareStatement("update validite set dateDerniereDonnee = ? where id_mk = ? and id_capteur = ?");
+			ss.setLong(1, dateDonnee);
+			ss.setInt(2,idMiniKit);
+			ss.setInt(3, idCapteur);
+			ss.executeUpdate();
+			if(!valide){
+				System.out.println("donnee invalide ++");
+				//st = con.createStatement();
+				
+				PreparedStatement s1 = con.prepareStatement("select nbInvalide from validite where id_mk=? and id_capteur=?");
+				s1.setInt(1, idMiniKit);
+				s1.setInt(2,idCapteur);
+				ResultSet r1 = s1.executeQuery();
+				//res = st.executeQuery("select nbInvalide from validite where id_mk="+idMiniKit+"and id_capteur="+idCapteur);
+				System.out.println("+++ 1");
+				if(r1.next()){
+					System.out.println("ana f if :D");
+					int nbInvalide = r1.getInt(1);
+					nbInvalide ++;
+					Statement s2 = con.createStatement();
+					s2.executeUpdate("update validite set nbInvalide = "+nbInvalide+" where id_mk = "+idMiniKit+" and id_capteur = "+idCapteur);
+					System.out.println("+++ 2");
+					Statement s3 = con.createStatement();
+					ResultSet r3 = s3.executeQuery("select admin from droits where id_mk = "+ idMiniKit);
+					System.out.println("+++ 3");
+					while(r3.next()){
+						System.out.println("ana f l while");
+						Statement s4 = con.createStatement();
+						ResultSet r4 = s4.executeQuery("select mail from admins where nbDonneeInvalide = "+nbInvalide+" and admin = \""+r3.getString(1)+"\"");
+						System.out.println("+++ 4");
+						if(r4.next()){
+							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
+							sendEmail(r4.getString(1),message+ " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+						}
+						
+					}
+					Statement s5 = con.createStatement();
+					ResultSet r5 = s5.executeQuery("select nbDonneeInvalide,mail from admins where admin =\"admin\"");
+					if(r5.next()){
+						if(r5.getInt(1)==nbInvalide){
+							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
+							sendEmail(r5.getString(2),message+ " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+						}
+					}
+				}
+			}
+			
 			con.close();
 			return true;
 		} catch (ClassNotFoundException ex) {
 			return false;
 		} catch (SQLException ex) {
-			System.out.println("erreur sql f donnee");
+			System.out.println(ex);
 			return false;
 		}
 		
+	}
+	public static boolean sendEmail(String adresse, String mail){
+		try {
+			EmailUtility.sendEmail("smtp.gmail.com","587", "gestion.mini.kit@gmail.com","gestionminikit", adresse,"fablab", mail);
+		} catch (MessagingException ex) {
+			return false;
+		}
+		 
+		return true;
 	}
 	public static void main(String [] args){
 		//System.out.println("la date : "+premiereCnx("mouad",5));
