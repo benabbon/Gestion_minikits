@@ -33,7 +33,7 @@ public class MiniKit {
 	   idMinikit=Integer.parseInt(result);
 	   heartbeat = new HeartBeat(c,idMinikit);
        System.out.println("Result from server, first cnx : "+result);
-	   c.sendData("VALIDITE:"+idMinikit+":1:0:50");
+	   c.sendData("VALIDITE:"+idMinikit+":1:0:50");//Validité des valeurs d'un capteur + identifiantMin + id Capteur + Vmin + Vmax 
 	   for ( int i = 0; i < nbCapteur;i++){
            capteurs[i] = new Capteur(c,i+1,Integer.parseInt(result));
            capteurs[i].start();
