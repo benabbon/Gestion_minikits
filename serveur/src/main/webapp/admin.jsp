@@ -78,6 +78,7 @@
 										out.println("<td>"+res.getString(2)+"</td>");
 										out.println("<td>"+res.getInt(3)+"</td>");
 										out.println("<td>"+res.getString(4)+"</td>");
+										out.println("<td><a href=\"accesDistant.jsp?id="+res.getInt(1)+"\" class=\"btn primary\">Acces distant</a>"+"</td>");
 										out.println("</tr>");
 									}
 								}else{
