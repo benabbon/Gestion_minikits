@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project> 
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fablab</groupId>
+    <artifactId>Minikit</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+   
+    <modules>
+        
+    <module>connection.service</module>
+    <module>config.service</module>
+    <module>config.impl</module>
+    <module>client.heartbeat</module>
+    <module>connection.fake.impl</module>
+    <module>capteur.service</module>
+    <module>capteur.multi</module>
+    <module>capteur.gestionnaire</module>
+    <module>buffer.impl</module>
+    <module>connection.real</module>
+  </modules>
+   
+</project>
