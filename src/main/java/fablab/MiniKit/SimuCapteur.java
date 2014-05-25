@@ -16,8 +16,8 @@ public class SimuCapteur extends javax.swing.JFrame {
     /**
      * Creates new form SimuCapteur
      */
-    public SimuCapteur() {
-       capteurAssocie = MiniKit.g().getCapteur(0);
+    public SimuCapteur(int i) {
+       capteurAssocie = MiniKit.g().getCapteur(i);
         initComponents();
     }
 
@@ -77,7 +77,7 @@ public class SimuCapteur extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(final String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -104,7 +104,7 @@ public class SimuCapteur extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SimuCapteur().setVisible(true);
+                new SimuCapteur(Integer.parseInt(args[0])).setVisible(true);
             }
         });
     }

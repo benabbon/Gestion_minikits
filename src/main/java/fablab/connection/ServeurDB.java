@@ -200,8 +200,6 @@ public class ServeurDB {
 			System.out.println("mochkila f lmail");
 			return false;
 		}
-		//System.out.println("ghansift mail");
-		 
 		return true;
 	}
 	public static void main(String [] args){
