@@ -7,6 +7,9 @@
 
 package fablab.config.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
  * @author cordieth
@@ -69,4 +72,5 @@ public interface Config {
     
     public void setFoncCapteur(int numeroCapteur,String func);
 
+    public void writeFile() throws FileNotFoundException, IOException;
 }

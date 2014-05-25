@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-package fablab.connection.real;
+package test;
 
-import fablab.config.service.Config;
-import fablab.connection.service.Connection;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,11 +20,11 @@ import javax.swing.JFrame;
  *
  * @author Thomas
  */
-public class RealConnection implements Connection {
+public class RealConnection {
     
     boolean activated;
     GUI gui;
-    Config conf;
+    ConfigImpl conf;
     public boolean sendData(String data) {
         if (activated) {
             return(sendDataFirst(data)==null);
@@ -60,7 +58,6 @@ public class RealConnection implements Connection {
  *  inittialize connexion by updating idMinikit value if it equals -1
  */
     private void initConnection() {
-        try{
             String val = null;
             if (conf.getIdMinikit() == -1){
                 boolean valide=false;
@@ -73,11 +70,8 @@ public class RealConnection implements Connection {
                         catch (Exception e) {
                             System.out.println(e.toString());
                         }
-               conf.writeFile();
+               //conf.writeFile();
             }
-        }catch(Exception e){
-            System.out.println(e.toString());
-        }
         
     }
 
@@ -112,14 +106,20 @@ public class RealConnection implements Connection {
             }
             System.out.println("Receive : "+result);
             input.close();
-        } catch (UnsupportedEncodingException ex) {System.out.println(ex.toString());result="fail";
-        } catch (MalformedURLException ex) {System.out.println(ex.toString());result="fail";
-        } catch (IOException ex) {System.out.println(ex.toString());result="fail";
+        } catch (UnsupportedEncodingException ex) {result="fail";
+        } catch (MalformedURLException ex) {result="fail";
+        } catch (IOException ex) {result="fail";
         }
         // If the response is empty we send a null string
         if ("".equals(result))
             result = null;
         return result;
     }
+
+    public RealConnection(ConfigImpl conf) {
+        this.conf=conf;
+        starting();
+    }
+    
     
 }

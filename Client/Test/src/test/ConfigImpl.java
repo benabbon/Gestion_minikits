@@ -2,10 +2,9 @@
 * To change this template, choose Tools | Templates
 * and open the template in the editor.
 */
-package fablab.config.impl;
+package test;
 
 
-import fablab.config.service.Config;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -15,11 +14,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-public class ConfigImpl implements Config{
+public class ConfigImpl {
     
     // Attributs
     private Path configFilePath;
@@ -55,15 +53,11 @@ public class ConfigImpl implements Config{
     
     
     public void starting(){
-        try {
-            
-            configFilePath = Paths.get("configMinikit.dat");
-            capteurs = new TreeMap<Integer, String>();
-            processLineByLine();
-        } catch (Exception ex) {
-            System.out.println("test debug");
-            System.out.println(ex.toString()+"  "+ex.getMessage());
-        }
+        this.idMinikit=1;
+        this.nbCapteurs=5;
+        this.ipServer="172.23.7.138:8080/fablab";
+        this.nomParticulier="BOB";
+        this.prenomParticulier="LEPONGE";
     }
     
     
@@ -172,6 +166,10 @@ public class ConfigImpl implements Config{
     
     public void setFoncCapteur(int numeroCapteur, String func) {
         this.capteurs.replace(numeroCapteur, func);
+    }
+
+    public ConfigImpl() {
+        starting();
     }
     
     

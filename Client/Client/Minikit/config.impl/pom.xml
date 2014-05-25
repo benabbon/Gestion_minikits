@@ -12,12 +12,6 @@
             <artifactId>config.service</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>fablab</groupId>
-            <artifactId>config.service</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type>
-        </dependency>
     </dependencies> 
      
     <build>

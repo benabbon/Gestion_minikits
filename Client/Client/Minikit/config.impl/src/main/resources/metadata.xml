@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 
 <ipojo 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -12,7 +7,6 @@ and open the template in the editor.
 
   <component classname="fablab.config.impl.ConfigImpl"
     name="ConfigProvider">
-    <requires field="connection" />
     <provides />
     <callback transition="validate" method="starting" />
   </component>
