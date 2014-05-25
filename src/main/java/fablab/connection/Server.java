@@ -63,6 +63,9 @@ public class Server {
         if (data.startsWith("FIRST")) {
             respond = handleFirstConnection(data.substring(6));
         }
+		if (data.startsWith("VALIDITE")) {
+            handleValidite(data.substring(9));
+        }
 		}
         return respond;
     }
@@ -86,7 +89,20 @@ public class Server {
 			
 		}
     }
-
+	
+	public static void handleValidite(String data) {
+        System.out.println("set validité received");
+		String[] param = data.split(":");
+		if(param.length >= 4){
+			System.out.println("ana f la boucle");
+			int idMiniKit = Integer.parseInt(param[0]);
+			int idCapteur = Integer.parseInt(param[1]);
+			Integer min  = param[2].equals("NULL")?null:Integer.parseInt(param[2]);
+			Integer max = param[3].equals("NULL")?null:Integer.parseInt(param[3]);
+			ServeurDB.setValidite(idMiniKit, idCapteur, min, max);
+		}
+    }
+	
     private static String handleFirstConnection(String data) {
         String[] param = data.split(":");
 		if(param.length >= 2){

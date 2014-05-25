@@ -2,10 +2,14 @@ package fablab.connection;
 
 
 
-import java.util.Date;
 import java.sql.*;
+import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -48,7 +52,7 @@ public class ServeurDB {
 			if (id == 0)
 				return 0;
 			for (int i = 1; i <= nbCapteur; i++){
-				st.executeUpdate("insert into validite values ("+id+", "+i+", null, null)");
+				st.executeUpdate("insert into validite values ("+id+", "+i+", null, null,0,"+date.getTime()+")");
 			}
 			con.close();
 			return id;
@@ -138,21 +142,73 @@ public class ServeurDB {
 			PreparedStatement s = con.prepareStatement("insert into donnees values ("+idMiniKit+" , "+ idCapteur+" , "+ dateDonnee +" , "+donnee+" ,?)");
 			s.setBoolean(1, valide);
 			s.executeUpdate();
+			PreparedStatement ss = con.prepareStatement("update validite set dateDerniereDonnee = ? where id_mk = ? and id_capteur = ?");
+			ss.setLong(1, dateDonnee);
+			ss.setInt(2,idMiniKit);
+			ss.setInt(3, idCapteur);
+			ss.executeUpdate();
+			if(!valide){
+				PreparedStatement s1 = con.prepareStatement("select nbInvalide from validite where id_mk=? and id_capteur=?");
+				s1.setInt(1, idMiniKit);
+				s1.setInt(2,idCapteur);
+				ResultSet r1 = s1.executeQuery();
+				if(r1.next()){
+					int nbInvalide = r1.getInt(1);
+					nbInvalide ++;
+					Statement s2 = con.createStatement();
+					s2.executeUpdate("update validite set nbInvalide = "+nbInvalide+" where id_mk = "+idMiniKit+" and id_capteur = "+idCapteur);
+					Statement s3 = con.createStatement();
+					ResultSet r3 = s3.executeQuery("select admin from droits where id_mk = "+ idMiniKit);
+					while(r3.next()){
+						Statement s4 = con.createStatement();
+						ResultSet r4 = s4.executeQuery("select mail from admins where nbDonneeInvalide = "+nbInvalide+" and admin = \""+r3.getString(1)+"\"");
+						if(r4.next()){
+							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
+							sendEmail(r4.getString(1),message+ " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+						}
+						
+					}
+					Statement s5 = con.createStatement();
+					ResultSet r5 = s5.executeQuery("select nbDonneeInvalide,mail from admins where admin =\"admin\"");
+					if(r5.next()){
+						if(r5.getInt(1)==nbInvalide){
+							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
+							System.out.println(message);
+							System.out.println(r5.getString(2));
+							sendEmail(r5.getString(2),message + " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+						}
+					}
+				}
+			}
+			
 			con.close();
 			return true;
 		} catch (ClassNotFoundException ex) {
 			return false;
 		} catch (SQLException ex) {
-			System.out.println("erreur sql f donnee");
+			System.out.println(ex);
 			return false;
 		}
 		
+	}
+	
+	public static boolean sendEmail(String adresse, String mail){
+		try {
+			System.out.println(" Email");
+			EmailUtility.sendEmail("smtp.gmail.com","587", "fablab.gestion.mini.kits@gmail.com","fablab2014", adresse,"fablab", mail);
+		} catch (MessagingException ex) {
+			System.out.println("mochkila f lmail");
+			return false;
+		}
+		return true;
 	}
 	public static void main(String [] args){
 		//System.out.println("la date : "+premiereCnx("mouad",5));
 		//setValidite(5,2,null,8);
 		//HB(5);
 		//System.out.println(" haaaaaaa"+donnee(5,2,10));;
+		//boolean sendEmail = sendEmail("mouad.elaaboudi@gmail.com","salam");
+		//System.out.println("wach mcha  "+sendEmail);
 		
 	}
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Accueil</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="bootstrap-1.2.0.min.css" />
+     
+    </head>
+    <body>
+        <div class="container-fluid">
+             <div class="hero-unit">
+                <center><h2>Page d'authentification</h2></center>
+                <br><br>
+                <fieldset>
+                    <form method="POST" action="./CheckUser">
+                        <div class="clearfix">
+                            <label>Login</label>
+                            <div class="input">
+                                <input name="login"/>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <label>Password</label>
+                            <div class="input">
+                                <input name="password" type="password" />
+                            </div>
+                        </div>
+                        <div class="action">
+                            <div class="clearfix">
+                                <div class="input">
+                                    <input type="submit" value="Envoyer" class="btn primary "/>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    </body>
+</html>
