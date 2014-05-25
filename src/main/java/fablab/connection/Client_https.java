@@ -22,13 +22,13 @@ import java.util.logging.Logger;
  * @author nabilbenabbou1
  */
 public class Client_https {
-    
+
     public static synchronized String sendData(String data) {
         String result = "";
         try {
             // Prepare the request
             System.setProperty("jsse.enableSNIExtension", "false");
-            String httpsURL = "https://minimart-benabbon.rhcloud.com/receive_data";   
+            String httpsURL = "http://172.23.7.138:8080/fablab/Serveur_https";   
             // Encode data
             String query = "data="+URLEncoder.encode(data,"UTF-8");            
             URL myurl = new URL(httpsURL);
@@ -49,7 +49,6 @@ public class Client_https {
                 result = result+line;
                 line = input.readLine();
             }
-            System.out.println("Receive : "+result);
             input.close();
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(Client_https.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,17 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 
 package fablab.connection;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Inet4Address;
-import java.net.Socket;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,44 +22,50 @@ import java.util.logging.Logger;
  * @author nabilbenabbou1
  */
 public class Client {
-    
-    public static void main(String [] args) {
-        try {
-            String sentence;
-            BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
-            while (true) {
-                System.out.println("Waiting to send ...");
-                sentence = inFromUser.readLine();
-                sendData(sentence);
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }
-    
+
     public static synchronized String sendData(String data) {
-        Socket clientSocket = null;
-        String respond = null;
+        String result = "";
         try {
-            clientSocket = new Socket("localhost", 1705);
-            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            // If we need to wait for data from the server
-            outToServer.writeBytes(data + '\n');
-            if (data.startsWith("FIRST")) {
-                BufferedReader inFromServer =
-                        new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                respond = inFromServer.readLine();
+            // Prepare the request
+            System.setProperty("jsse.enableSNIExtension", "false");
+            String httpsURL = "http://172.23.7.138:8080/fablab/receive_data";   //130.190.31.205
+            //String httpsURL = "https:///minimart-benabbon.rhcloud.com/fablab/Serveur_https";   //130.190.31.205
+            // Encode data
+            String query = "data="+URLEncoder.encode(data,"UTF-8");            
+            URL myurl = new URL(httpsURL);
+            HttpURLConnection con = (HttpURLConnection)myurl.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-length", String.valueOf(query.length()));
+            con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+            con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0;Windows98;DigExt)");
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            DataOutputStream output = new DataOutputStream(con.getOutputStream());            
+            output.writeBytes(query);            
+            output.close();
+            // Handle the response
+            DataInputStream input = new DataInputStream( con.getInputStream() ); 
+            String line = input.readLine();
+            while (line != null) {
+                result = result+line;
+                line = input.readLine();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if(clientSocket!=null) try {
-                clientSocket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            input.close();
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Client_https.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Client_https.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Client_https.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return respond;
+        // If the response is empty we send a null string
+        if ("".equals(result))
+            result = null;
+        return result;
     }
+    
+    public static void main(String[] args) {
+              sendData("FIRST:Nabil:3:LALa:LALA");
+    }
+    
 }

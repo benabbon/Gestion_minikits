@@ -4,7 +4,7 @@
     xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/CURRENT/core.xsd" 
     xmlns="org.apache.felix.ipojo">
 
-  <component classname="fablab.connection.fake.impl.RealConnection"
+  <component classname="fablab.connection.real.RealConnection"
     name="RealConnectionProvider">
     <requires field="conf" />
     <callback transition="validate" method="starting" />

@@ -5,16 +5,12 @@
  */
 
 package fablab.MiniKit;
-import fablab.Services.ServiceBuffer;
-import fablab.Services.ServiceConnection;
 import fablab.connection.Client;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Instantiate;
-import org.apache.felix.ipojo.annotations.Requires;
 
 /**
  *
@@ -48,7 +44,6 @@ class Capteur extends Thread {
         connexion = c;
 		this.idCapteur=id;
 		this.idMiniKit=miniKit;
-        //cache = new HashMap<Integer, String>();
         
     }
     

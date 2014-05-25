@@ -6,7 +6,6 @@ package fablab.config.impl;
 
 
 import fablab.config.service.Config;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -31,7 +30,6 @@ public class ConfigImpl implements Config{
     private TreeMap<Integer, String> capteurs;
     private String nomParticulier;
     private String prenomParticulier;
-    private Connection connection;
     
     
     // Getter useful later
@@ -63,21 +61,8 @@ public class ConfigImpl implements Config{
             capteurs = new TreeMap<Integer, String>();
             processLineByLine();
         } catch (Exception ex) {
+            System.out.println("test debug");
             System.out.println(ex.toString()+"  "+ex.getMessage());
-            
-            try {
-            
-                BufferedWriter writer = new BufferedWriter(new FileWriter(new File("configMinikit.dat")));
-                writer.write("");
-                writer.close();
-                configFilePath = Paths.get("configMinikit.dat");
-                capteurs = new TreeMap<Integer, String>();
-                processLineByLine();
-                System.out.println("configMinikit créé");
-            } catch (Exception exc) {
-                System.out.println(exc.toString()+"  "+ex.getMessage());
-                
-            }
         }
     }
     
@@ -102,7 +87,7 @@ public class ConfigImpl implements Config{
     private void processLine(String Line) throws Exception{
         //use a second Scanner to parse the content of each line
         Scanner scanner = new Scanner(Line);
-        scanner.useDelimiter(":");
+        scanner.useDelimiter("#");
         if (scanner.hasNext()){
             //assumes the line has a certain structure
             String name = scanner.next();
@@ -138,14 +123,14 @@ public class ConfigImpl implements Config{
         PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
         File originalFile = configFilePath.toFile();
         
-        pw.println("IDMINIKIT:"+idMinikit);
-        pw.println("NBCAPTOR:"+nbCapteurs);
-        pw.println("IPSERVER:"+ipServer);
-        pw.println("LASTNAME:"+nomParticulier);
-        pw.println("FIRSTNAME:"+prenomParticulier);
+        pw.println("IDMINIKIT#"+idMinikit);
+        pw.println("NBCAPTOR#"+nbCapteurs);
+        pw.println("IPSERVER#"+ipServer);
+        pw.println("LASTNAME#"+nomParticulier);
+        pw.println("FIRSTNAME#"+prenomParticulier);
         int i = 0;
         for (String func: capteurs.values()){
-            pw.println("CAPTOR"+ i +":" + func);
+            pw.println("CAPTOR"+ i +"#" + func);
             i++;
         }
         pw.flush();
@@ -186,7 +171,7 @@ public class ConfigImpl implements Config{
     }
     
     public void setFoncCapteur(int numeroCapteur, String func) {
-        //this.capteurs.replace(numeroCapteur, func);
+        this.capteurs.replace(numeroCapteur, func);
     }
     
     

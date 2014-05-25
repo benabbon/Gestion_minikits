@@ -3,3 +3,6 @@ src/bin
 *.cer
 target/
 *~
+/Client/Test/nbproject/private/
+/Client/Test/build/
+/Client/Test/dist/

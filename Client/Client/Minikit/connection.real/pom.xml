@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fablab</groupId>
     <artifactId>connection.real</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>bundle</packaging>
     <name>Connection Real</name>
 
@@ -17,7 +17,6 @@
             <groupId>fablab</groupId>
             <artifactId>config.service</artifactId>
             <version>1.0.0</version>
-            <type>jar</type>
         </dependency>
       <dependency>
           <groupId>org.apache.felix</groupId>
