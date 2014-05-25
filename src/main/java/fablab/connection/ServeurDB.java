@@ -22,6 +22,8 @@ import javax.mail.internet.*;
  * @author mouad
  */
 public class ServeurDB {
+	
+	static String ip = "localhost";
 	// cette methode est applee lors de la premiere connexion du minikit avec le serveur
 	// le paramètre client c'est le nom du client, et nbCapteur c'est le nombre du capteur
 	// la methode retourne l'identifiant du nouveau minikit ( id > 0)
@@ -164,7 +166,7 @@ public class ServeurDB {
 						ResultSet r4 = s4.executeQuery("select mail from admins where nbDonneeInvalide = "+nbInvalide+" and admin = \""+r3.getString(1)+"\"");
 						if(r4.next()){
 							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
-							sendEmail(r4.getString(1),message+ " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+							sendEmail(r4.getString(1),message+ " http://"+ip+":8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
 						}
 						
 					}
@@ -175,7 +177,7 @@ public class ServeurDB {
 							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
 							System.out.println(message);
 							System.out.println(r5.getString(2));
-							sendEmail(r5.getString(2),message + " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+							sendEmail(r5.getString(2),message + " http://"+ip+":8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
 						}
 					}
 				}

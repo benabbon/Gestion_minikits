@@ -23,6 +23,9 @@ import java.util.logging.Logger;
  */
 public class HBControl {
 	private static int frequence = 10000;
+	static int getFrequence(){
+		return frequence;
+	}
 	public static  void main(String [] args){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -34,12 +37,10 @@ public class HBControl {
 				ResultSet res = st.executeQuery("select * from mini_kit");
 				Date d = new Date();
 				while(res.next()){
-					System.out.println("boucle dial les minikits");
 					Date date = res.getTimestamp(4);
 					Date aux = new Date(date.getTime());
 					aux.setSeconds(aux.getSeconds()+3*frequence/1000);
 					if(aux.before(d)){
-						System.out.println("3 hb majawch");
 						Statement s1 = con.createStatement();
 						ResultSet r1 = s1.executeQuery("select admin from droits where id_mk = "+res.getInt(1));
 						while(r1.next()){
@@ -83,11 +84,11 @@ public class HBControl {
 				Thread.sleep(frequence);
 			}
 		} catch (InterruptedException ex) {
-			Logger.getLogger(HBControl.class.getName()).log(Level.SEVERE, null, ex);
+			main(args);
 		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(HBControl.class.getName()).log(Level.SEVERE, null, ex);
+			main(args);
 		} catch (SQLException ex) {
-			Logger.getLogger(HBControl.class.getName()).log(Level.SEVERE, null, ex);
+			main(args);
 		}
 	}
 }

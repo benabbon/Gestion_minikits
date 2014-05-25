@@ -9,6 +9,7 @@
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,58 +73,55 @@ public class Server_https extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println(System.getProperty("user.home") +"/mycmd"+request.getParameter("id")+".txt");
 		PrintWriter out = response.getWriter();
 		// receive results from the client
 		if ("result".equals(request.getParameter("action"))) {
-            System.out.println("Parameter Data for SaveResult " + request.getParameter("data"));
             Part filePart = request.getPart("data");
-            
             InputStream filecontent = null;
             filecontent = filePart.getInputStream();
-            
             File img = new File(System.getProperty("user.home") +"/mycmdResult"+request.getParameter("id")+".txt");
             FileOutputStream outCmdRes = new FileOutputStream(img);
-                        
             int read = 0;
             final byte[] bytes = new byte[1024];
             while ((read = filecontent.read(bytes)) != -1) {
                 outCmdRes.write(bytes, 0, read);
             }            
+			outCmdRes.close();
         }
         // get the command from the admin page
         else if ("saveCmd".equals(request.getParameter("action"))) {
-            System.out.println("Parameter Data for SaveCmd " + request.getParameter("cmd"));
-            //out.println("Thank you for your answer, talk to you later");  
             String cmd = request.getParameter("cmd");
             File img = new File(System.getProperty("user.home") +"/mycmd"+request.getParameter("id")+".txt");
             FileOutputStream outCmd = new FileOutputStream(img);
             
             outCmd.write(cmd.getBytes());
+			outCmd.close();
         }
         // send the results to the admin page
         else if ("getResults".equals(request.getParameter("action"))) {
-            System.out.println("Parameter Data for GETResult " + request.getParameter("cmd"));
-            //out.println("Thank you for your answer, talk to you later");  
-            File img = new File(System.getProperty("user.home") +"/mycmdResult"+request.getParameter("id")+".txt");
-            
-            String s = "";
-            InputStream in = null;
-            
-            in = new FileInputStream(img);
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-            
-            while ((read = in.read(bytes)) != -1) {
-                for (byte b : bytes) {
-                    s = s+(char)b;
-                }
-            }
-            out.print(s);
+            try{
+				File img = new File(System.getProperty("user.home") +"/mycmdResult"+request.getParameter("id")+".txt");
+				String s = "";
+				InputStream in = null;
+
+				in = new FileInputStream(img);
+				int read = 0;
+				final byte[] bytes = new byte[1024];
+
+				while ((read = in.read(bytes)) != -1) {
+					for (byte b : bytes) {
+						s = s+(char)b;
+					}
+				}
+				in.close();
+				out.print(s);
+			}catch(FileNotFoundException ex){
+				
+			}
+			
         }
         // send the command to the client
 		else if ("get".equals(request.getParameter("action"))){
-            System.out.println("Parameter Data Value for GetCMD" + request.getParameter("data"));
             String respond = handle2(request);
             if (respond != null || "".equals(respond)) {
                 out.print(respond);
@@ -152,7 +150,11 @@ public class Server_https extends HttpServlet {
                      s = s+(char)b; 
                  }
              }
-			 img.delete();
+			 in.close();
+			 // Suppression de la commande apres son envoi
+             FileOutputStream outCmd = new FileOutputStream(img);            
+            outCmd.flush();
+			outCmd.close();
          } catch (IOException ex) {
              Logger.getLogger(Server_https.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -161,7 +163,7 @@ public class Server_https extends HttpServlet {
     public static String handle(String data) {
         String respond = null;
         if (data != null) {
-            System.out.println(" Data in handle : " + data);
+            System.out.println(" Data : " + data);
             if (data.startsWith("HB")) {
                 handleHeartBeat(data.substring(3));
             }
@@ -169,25 +171,25 @@ public class Server_https extends HttpServlet {
                 handleData(data.substring(5));
             }
             if (data.startsWith("FIRST")) {
-                System.out.println(" Data in first cnx : " + data.substring(6));
                 respond = handleFirstConnection(data.substring(6));
             }
+			if (data.startsWith("VALIDITE")) {
+            handleValidite(data.substring(9));
+        }
         }
         System.out.println(" Data in respond : "+respond);
         return respond;
     }
     
     public static void handleHeartBeat(String data) {
-        System.out.println("hb received");
+//        System.out.println("hb received");
 		int id = Integer.parseInt(data);
 		ServeurDB.HB(id);
     }
     
     public static void handleData(String data) {
-        System.out.println("data received");
 		String[] param = data.split(":");
 		if(param.length >= 4){
-			System.out.println("ana f la boucle");
 			int idMiniKit = Integer.parseInt(param[0]);
 			int idCapteur = Integer.parseInt(param[1]);
 			int donnee  = Integer.parseInt(param[2]);
@@ -197,6 +199,18 @@ public class Server_https extends HttpServlet {
 		}
     }
     
+	public static void handleValidite(String data) {
+        System.out.println("set validité received");
+		String[] param = data.split(":");
+		if(param.length >= 4){
+			int idMiniKit = Integer.parseInt(param[0]);
+			int idCapteur = Integer.parseInt(param[1]);
+			Integer min  = param[2].equals("NULL")?null:Integer.parseInt(param[2]);
+			Integer max = param[3].equals("NULL")?null:Integer.parseInt(param[3]);
+			ServeurDB.setValidite(idMiniKit, idCapteur, min, max);
+		}
+    }
+	
     private static String handleFirstConnection(String data) {
         String[] param = data.split(":");
 		if(param.length >= 2){

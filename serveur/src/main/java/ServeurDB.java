@@ -17,6 +17,9 @@ import javax.mail.MessagingException;
  * @author mouad
  */
 public class ServeurDB {
+	
+	static String ip = "localhost";
+	static int frequence = 10000;
 	// cette methode est applee lors de la premiere connexion du minikit avec le serveur
 	// le paramètre client c'est le nom du client, et nbCapteur c'est le nombre du capteur
 	// la methode retourne l'identifiant du nouveau minikit ( id > 0)
@@ -102,6 +105,36 @@ public class ServeurDB {
 				con.close();
 				return false;
 			}
+			Date d = res.getTimestamp(4);
+			Date aux = new Date(d.getTime());
+			aux.setSeconds(aux.getSeconds()+3*frequence/1000);
+			if(aux.before(d)){
+				long hb = ((new Date(date.getTime()-d.getTime())).getTime())/(frequence);
+				PreparedStatement s1 = con.prepareStatement("select admin from droits where id_mk = ?");
+				s1.setInt(1,idMiniKit);
+				ResultSet r1 = s1.executeQuery();
+				while(r1.next()){
+					PreparedStatement s2 = con.prepareStatement("select nbHeartBeat, mail from admins where admin = ?");
+					s2.setString(1, r1.getString(1));
+					ResultSet r2 = s2.executeQuery();
+					while(r2.next()){
+						if(r2.getInt(1) <= hb){
+							String message = "Le minikit "+idMiniKit+ " a reprit son fonctionnement normale";
+							sendEmail(r2.getString(2),message);
+						}
+					}
+				}
+				PreparedStatement s3 = con.prepareStatement("select nbHeartBeat, mail from admins where admin = ?");
+				s3.setString(1,"admin");
+				ResultSet r3 = s3.executeQuery();
+				if(r3.next()){
+					if(r3.getInt(1) <= hb){
+						String message = "Le minikit "+idMiniKit+ " a reprit son fonctionnement normale";
+						sendEmail(r3.getString(2),message);
+					}
+				}
+				
+			}
 			st.executeUpdate("update mini_kit set date_derniere_connexion = "+ time +" where id_mk = "+idMiniKit);
 			con.close();
 			return true;
@@ -159,7 +192,7 @@ public class ServeurDB {
 						ResultSet r4 = s4.executeQuery("select mail from admins where nbDonneeInvalide = "+nbInvalide+" and admin = \""+r3.getString(1)+"\"");
 						if(r4.next()){
 							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
-							sendEmail(r4.getString(1),message+ " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+							sendEmail(r4.getString(1),message+ " http://"+ip+":8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
 						}
 						
 					}
@@ -170,7 +203,7 @@ public class ServeurDB {
 							String message = "Le capteur d'identifiant :"+idCapteur+", du minikit d'identifiant :"+idMiniKit+" a généré "+nbInvalide+" de données invalides";
 							System.out.println(message);
 							System.out.println(r5.getString(2));
-							sendEmail(r5.getString(2),message + " http://localhost:8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
+							sendEmail(r5.getString(2),message + " http://"+ip+":8080/fablab/InitialiserDonneesInvalides?idMiniKit="+idMiniKit+"&idCapteur="+idCapteur);
 						}
 					}
 				}
@@ -184,13 +217,15 @@ public class ServeurDB {
 			System.out.println(ex);
 			return false;
 		}
+		
 	}
 	public static boolean sendEmail(String adresse, String mail){
 		try {
 			System.out.println(" Email");
-			EmailUtility.sendEmail("smtp.gmail.com","587", "fablab.gestion.mini.kits@gmail.com","fablab2014", adresse,"fablab", mail);
+			EmailUtility.sendEmail("smtp.gmail.com","587", "fablab.no.reply@gmail.com","fablab2014", adresse,"fablab", mail);
 		} catch (MessagingException ex) {
-			System.out.println("mochkila f lmail");
+			System.out.println("Problème lors de l'envoie du mail");
+			System.out.println(ex);
 			return false;
 		}
 		return true;
