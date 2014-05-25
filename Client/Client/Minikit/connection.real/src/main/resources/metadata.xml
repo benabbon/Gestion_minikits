@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ipojo 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/CURRENT/core.xsd" 
+    xmlns="org.apache.felix.ipojo">
+
+  <component classname="fablab.connection.fake.impl.RealConnection"
+    name="RealConnectionProvider">
+    <requires field="conf" />
+    <callback transition="validate" method="starting" />
+    <callback transition="invalidate" method="stopping" />
+    <provides />
+  </component>
+
+  <instance component="RealConnectionProvider" 
+            name="RealConnection" />
+</ipojo>
