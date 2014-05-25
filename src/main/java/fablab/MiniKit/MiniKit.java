@@ -7,7 +7,7 @@
 package fablab.MiniKit;
 import fablab.HeartBeat.HeartBeat;
 import fablab.connection.Client;
-import java.util.HashMap;
+import fablab.connection.Client_https;
 /**
  *
  * @author toto
